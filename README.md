@@ -8,7 +8,7 @@ Claude Code gives you a token budget that resets every 5 hours. The window start
 
 So if you start at 8:30 AM and burn through your budget by 11, you're locked out until 1 PM. Two dead hours in the middle of your morning.
 
-The fix is dumb and it works: fire a throwaway message before you start working. A GitHub Actions cron sends "hi" to Haiku at 6:15 AM. The window floors to 6 AM, runs until 11. By the time you've hit the limit, it resets right away. Your next message anchors a fresh window through 4 PM.
+The fix is dumb and it works: fire a throwaway message before you start working. A GitHub Actions cron sends "hi" to Haiku at 9:15 AM British Summer Time. The window floors to 9 AM, runs until 2 PM. By the time you've hit the limit, it resets right away. Your next message anchors a fresh window through 7 PM.
 
 Example schedule:
 ```
@@ -60,13 +60,9 @@ Paste when prompted.
 
 ### 4. Set your schedule
 
-Default is weekdays at 9:15 UTC. Change it with a repo variable:
+Default is weekdays at `08:15 UTC`, which is `09:15 BST`. GitHub Actions cron is UTC-only, so this will shift to `08:15 GMT` in winter unless you change the workflow seasonally.
 
-```bash
-gh variable set WARMUP_CRON --body "15 11 * * 1-5"
-```
-
-That's a standard cron expression in UTC. Common conversions:
+If you want a different local time, edit `.github/workflows/warmup.yml` and set the cron in UTC. Common conversions:
 
 | Timezone | 6:15 AM local in UTC | Cron |
 |---|---|---|
